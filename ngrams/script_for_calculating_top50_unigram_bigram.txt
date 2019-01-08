@@ -1,0 +1,10 @@
+//Getting top 50 Unigram
+tr -c '[:alnum:]' '[\n*]' < test.txt | sort | uniq -c | sort -nr | head  -50 > unigram.txt
+
+//Getting top 50 bigram
+cat data.txt | tr '[:upper:]' '[:lower:]' | tr -d '[:punct:]' | sed 's/,//' | sed G | tr ' ' '\n' > tmp.txt
+tail -n+2 tmp.txt > tmp2.txt
+paste -d ',' tmp.txt tmp2.txt | grep -v -e "^," | grep -v -e ",$" | sort | uniq -c | sort -rn | head -50 > bigram.txt
+
+//Concatenate unigram and bigram file to a single document
+cat unigram.txt bigram.txt > final.txt
